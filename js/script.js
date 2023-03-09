@@ -26,13 +26,39 @@ const images = [
   },
 ];
 
-//Come nel primo carosello realizzato, focalizziamoci prima sulla creazione del markup statico: costruiamo il container e inseriamo l'immagine grande in modo da poter stilare lo slider.
-let imageInnerEl = document.querySelector(".__big-image-container");
-//console.log(containerInnerEl);
-let carosImage = document.createElement("img");
-carosImage.style.objectFit = "";
-carosImage.style.height = "100%";
-carosImage.style.width = "100%";
+//costruisco il container e inseriamo l'immagine grande in modo da poter stilare lo slider.
 
-carosImage.setAttribute("src", "img/01.webp");
-imageInnerEl.append(carosImage);
+let bigImageInnerContainerEl = document.querySelector(".__big-image-container");
+//console.log(containerInnerEl);
+let arrowUpEl = document.querySelector(".__arrow-up");
+console.log(arrowUpEl);
+let arrowDownEl = document.querySelector(".__arrow-down");
+console.log(arrowDownEl);
+
+//  rimuoviamo i contenuti statici e usiamo l’array di oggetti letterali per popolare dinamicamente il carosello.
+function addBigImage(arr, elementReceivingAppend) {
+  let carosImage = document.createElement("img");
+  carosImage.style.objectFit = "";
+  carosImage.style.height = "100%";
+  carosImage.style.width = "100%";
+  elementReceivingAppend.append(carosImage);
+
+  carosImage.setAttribute("src", `img/01.webp`);
+
+  let counter = 1;
+  arrowDownEl.addEventListener("click", function () {
+    console.log(counter);
+    if (counter === arr.length) {
+      counter = 1;
+    } else {
+      counter++;
+    }
+    carosImage.setAttribute("src", `img/0${counter}.webp`);
+  });
+
+  // arr.forEach((el) => {
+  //   console.log(el.image);
+  // });
+}
+
+addBigImage(images, bigImageInnerContainerEl);
