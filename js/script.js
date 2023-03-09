@@ -129,7 +129,6 @@ function addBigImage(arr, elementReceivingAppend) {
 
     thumbImgArr[counter - 1].classList.add("__luminoso");
   });
-  let imgsBigCaroslArr = document.querySelectorAll(".__img-big-carosel");
 
   let btnAutoplayEl = document.getElementById("start-autoplay");
   let btnStopAutoplayEl = document.getElementById("stop-autoplay");
