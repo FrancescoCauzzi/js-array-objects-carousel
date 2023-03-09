@@ -35,6 +35,8 @@ console.log(arrowUpEl);
 let arrowDownEl = document.querySelector(".__arrow-down");
 console.log(arrowDownEl);
 
+// ora devo creare la function che genera le thumbnails
+
 function generateThumbnails(arr, elementReceivingAppend) {
   arr.forEach(function (el, index) {
     let thumbImgDivEl = document.createElement("div");
@@ -59,6 +61,7 @@ function addBigImage(arr, elementReceivingAppend) {
   carosImageEl.style.objectFit = "";
   carosImageEl.style.height = "100%";
   carosImageEl.style.width = "100%";
+  carosImageEl.classList.add("__img-big-carosel");
 
   carosImageEl.setAttribute("src", `img/01.webp`);
   elementReceivingAppend.append(carosImageEl);
@@ -96,11 +99,9 @@ function addBigImage(arr, elementReceivingAppend) {
   //   el.classList.add("__scuro");
   // });
 
-  thumbDivArr[counter - 1].style.border = "5px solid white";
   thumbImgArr[counter - 1].classList.add("__luminoso");
 
   arrowDownEl.addEventListener("click", function () {
-    thumbDivArr[counter - 1].style.border = "";
     thumbImgArr[counter - 1].classList.remove("__luminoso");
 
     if (counter === arr.length) {
@@ -111,11 +112,10 @@ function addBigImage(arr, elementReceivingAppend) {
     carosImageEl.setAttribute("src", `img/0${counter}.webp`);
     filmTitleEl.innerText = `${arr[counter - 1].title}`;
     filmDescrpEl.innerText = `${arr[counter - 1].text}`;
-    thumbDivArr[counter - 1].style.border = "5px solid white";
+
     thumbImgArr[counter - 1].classList.add("__luminoso");
   });
   arrowUpEl.addEventListener("click", function () {
-    thumbDivArr[counter - 1].style.border = "";
     thumbImgArr[counter - 1].classList.remove("__luminoso");
 
     if (counter === 1) {
@@ -126,14 +126,34 @@ function addBigImage(arr, elementReceivingAppend) {
     carosImageEl.setAttribute("src", `img/0${counter}.webp`);
     filmTitleEl.innerText = `${arr[counter - 1].title}`;
     filmDescrpEl.innerText = `${arr[counter - 1].text}`;
-    thumbDivArr[counter - 1].style.border = "5px solid white";
+
     thumbImgArr[counter - 1].classList.add("__luminoso");
   });
+  let imgsBigCaroslArr = document.querySelectorAll(".__img-big-carosel");
+
+  let btnAutoplayEl = document.getElementById("start-autoplay");
+  let btnStopAutoplayEl = document.getElementById("stop-autoplay");
+  let intervalID;
+  let counter2 = 1;
+  btnAutoplayEl.addEventListener("click", function () {
+    intervalID = setInterval(function () {
+      if (counter2 === 5) {
+        counter2 = 1;
+      } else {
+        counter2++;
+      }
+      carosImageEl.setAttribute("src", `img/0${counter2}.webp`);
+    }, 2000);
+  });
+  btnStopAutoplayEl.addEventListener("click", function () {
+    clearInterval(intervalID);
+  });
+  console.log(btnAutoplayEl);
 }
 
 // ora mi occupo dello slider
 let sliderContainerEl = document.querySelector(".__slider-container");
 
-// ora devo creare la function che genera le thumbnails
-
 addBigImage(images, bigImageInnerContainerEl);
+
+// seleziono il button per far partire l'autoplay

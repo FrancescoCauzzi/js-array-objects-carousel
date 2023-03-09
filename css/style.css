@@ -49,6 +49,7 @@
 
 .__luminoso {
   filter: brightness(110%);
+  border: 4px solid white;
 }
 
 .__arrow-down {
