@@ -42,20 +42,47 @@ function addBigImage(arr, elementReceivingAppend) {
   carosImage.style.height = "100%";
   carosImage.style.width = "100%";
   elementReceivingAppend.append(carosImage);
-
   carosImage.setAttribute("src", `img/01.webp`);
+
+  let filmTitleEl = document.createElement("h3");
+  filmTitleEl.style.color = "white";
+  filmTitleEl.style.textAlign = "end";
+  filmTitleEl.innerHTML = `${arr[0].title}`;
+  filmTitleEl.style.position = "absolute";
+  filmTitleEl.style.top = "80%";
+  filmTitleEl.style.right = "8px";
+  elementReceivingAppend.append(filmTitleEl);
+
+  let filmDescrpEl = document.createElement("p");
+  filmDescrpEl.style.color = "white";
+  filmDescrpEl.innerHTML = `${arr[0].text}`;
+  elementReceivingAppend.append(filmDescrpEl);
+  filmDescrpEl.style.position = "absolute";
+  filmDescrpEl.style.top = "87%";
+  filmDescrpEl.style.right = "8px";
+  filmDescrpEl.style.textAlign = "end";
+  filmDescrpEl.classList.add("fw-medium");
 
   let counter = 1;
   arrowDownEl.addEventListener("click", function () {
-    console.log(counter);
     if (counter === arr.length) {
       counter = 1;
     } else {
       counter++;
     }
     carosImage.setAttribute("src", `img/0${counter}.webp`);
+    filmTitleEl.innerText = `${arr[counter - 1].title}`;
+    filmDescrpEl.innerText = `${arr[counter - 1].text}`;
   });
 
+  arrowUpEl.addEventListener("click", function () {
+    if (counter === 1) {
+      counter = arr.length;
+    } else {
+      counter--;
+    }
+    carosImage.setAttribute("src", `img/0${counter}.webp`);
+  });
   // arr.forEach((el) => {
   //   console.log(el.image);
   // });
