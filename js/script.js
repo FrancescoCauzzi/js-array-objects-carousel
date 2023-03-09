@@ -35,21 +35,41 @@ console.log(arrowUpEl);
 let arrowDownEl = document.querySelector(".__arrow-down");
 console.log(arrowDownEl);
 
+function generateThumbnails(arr, elementReceivingAppend) {
+  arr.forEach(function (el, index) {
+    let thumbImgDivEl = document.createElement("div");
+    thumbImgDivEl.style.height = `calc(100% / ${arr.length}`;
+    thumbImgDivEl.classList.add("__thumb-div");
+    elementReceivingAppend.append(thumbImgDivEl);
+
+    let carosImage = document.createElement("img");
+    carosImage.classList.add("__thumb-img");
+    carosImage.style.objectFit = "";
+    carosImage.style.height = "100%";
+    carosImage.style.width = "100%";
+
+    thumbImgDivEl.append(carosImage);
+    carosImage.setAttribute("src", `img/0${index + 1}.webp`);
+  });
+}
+
 //  rimuoviamo i contenuti statici e usiamo l’array di oggetti letterali per popolare dinamicamente il carosello.
 function addBigImage(arr, elementReceivingAppend) {
-  let carosImage = document.createElement("img");
-  carosImage.style.objectFit = "";
-  carosImage.style.height = "100%";
-  carosImage.style.width = "100%";
-  elementReceivingAppend.append(carosImage);
-  carosImage.setAttribute("src", `img/01.webp`);
+  let carosImageEl = document.createElement("img");
+  carosImageEl.style.objectFit = "";
+  carosImageEl.style.height = "100%";
+  carosImageEl.style.width = "100%";
+
+  carosImageEl.setAttribute("src", `img/01.webp`);
+  elementReceivingAppend.append(carosImageEl);
 
   let filmTitleEl = document.createElement("h3");
   filmTitleEl.style.color = "white";
+  filmTitleEl.style.textShadow = "-1px 1px 1px blue";
   filmTitleEl.style.textAlign = "end";
   filmTitleEl.innerHTML = `${arr[0].title}`;
   filmTitleEl.style.position = "absolute";
-  filmTitleEl.style.top = "80%";
+  filmTitleEl.style.top = "82%";
   filmTitleEl.style.right = "8px";
   elementReceivingAppend.append(filmTitleEl);
 
@@ -58,34 +78,62 @@ function addBigImage(arr, elementReceivingAppend) {
   filmDescrpEl.innerHTML = `${arr[0].text}`;
   elementReceivingAppend.append(filmDescrpEl);
   filmDescrpEl.style.position = "absolute";
-  filmDescrpEl.style.top = "87%";
+  filmDescrpEl.style.top = "88%";
   filmDescrpEl.style.right = "8px";
   filmDescrpEl.style.textAlign = "end";
+  filmDescrpEl.style.textShadow = "-1px 1px 1px blue";
+  filmDescrpEl.style.paddingLeft = "40px";
   filmDescrpEl.classList.add("fw-medium");
 
+  generateThumbnails(images, sliderContainerEl);
+
   let counter = 1;
+  let thumbDivArr = document.querySelectorAll(".__thumb-div");
+  console.log(thumbDivArr);
+  let thumbImgArr = document.querySelectorAll(".__thumb-img");
+  console.log(thumbImgArr);
+  // thumbImgArr.forEach(function (el) {
+  //   el.classList.add("__scuro");
+  // });
+
+  thumbDivArr[counter - 1].style.border = "5px solid white";
+  thumbImgArr[counter - 1].classList.add("__luminoso");
+
   arrowDownEl.addEventListener("click", function () {
+    thumbDivArr[counter - 1].style.border = "";
+    thumbImgArr[counter - 1].classList.remove("__luminoso");
+
     if (counter === arr.length) {
       counter = 1;
     } else {
       counter++;
     }
-    carosImage.setAttribute("src", `img/0${counter}.webp`);
+    carosImageEl.setAttribute("src", `img/0${counter}.webp`);
     filmTitleEl.innerText = `${arr[counter - 1].title}`;
     filmDescrpEl.innerText = `${arr[counter - 1].text}`;
+    thumbDivArr[counter - 1].style.border = "5px solid white";
+    thumbImgArr[counter - 1].classList.add("__luminoso");
   });
-
   arrowUpEl.addEventListener("click", function () {
+    thumbDivArr[counter - 1].style.border = "";
+    thumbImgArr[counter - 1].classList.remove("__luminoso");
+
     if (counter === 1) {
       counter = arr.length;
     } else {
       counter--;
     }
-    carosImage.setAttribute("src", `img/0${counter}.webp`);
+    carosImageEl.setAttribute("src", `img/0${counter}.webp`);
+    filmTitleEl.innerText = `${arr[counter - 1].title}`;
+    filmDescrpEl.innerText = `${arr[counter - 1].text}`;
+    thumbDivArr[counter - 1].style.border = "5px solid white";
+    thumbImgArr[counter - 1].classList.add("__luminoso");
   });
-  // arr.forEach((el) => {
-  //   console.log(el.image);
-  // });
 }
+
+// ora mi occupo dello slider
+let sliderContainerEl = document.querySelector(".__slider-container");
+
+// ora devo creare la function che genera le thumbnails
 
 addBigImage(images, bigImageInnerContainerEl);
