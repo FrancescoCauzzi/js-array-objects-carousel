@@ -95,50 +95,59 @@ function addBigImage(arr, elementReceivingAppend) {
   console.log(thumbDivArr);
   let thumbImgArr = document.querySelectorAll(".__thumb-img");
   console.log(thumbImgArr);
-  let counter = 1;
-  thumbImgArr[counter - 1].classList.add("__luminoso");
-  // thumbImgArr[0].classList.add("__luminoso");
-  // thumbImgArr.forEach(function (el, index) {
-  //   let previusindex = index;
-  //   el.addEventListener("click", function () {
-  //     thumbImgArr[0].classList.remove("__luminoso");
-  //     thumbImgArr[previusindex].classList.remove("__luminoso");
+  let counter = 0;
+  thumbImgArr[counter].classList.add("__luminoso");
+  //thumbImgArr[0].classList.add("__luminoso");
+  let previousIndex = counter;
+  thumbImgArr.forEach(function (el, index) {
+    el.addEventListener("click", function () {
+      counter = index;
+      thumbImgArr[previousIndex].classList.remove("__luminoso");
+      thumbImgArr[counter].classList.add("__luminoso");
+      carosImageEl.setAttribute("src", `img/0${counter + 1}.webp`);
+      filmTitleEl.innerText = `${arr[counter].title}`;
+      filmDescrpEl.innerText = `${arr[counter].text}`;
 
-  //     console.log(index);
-  //     console.log(previusindex);
+      previousIndex = index;
 
-  //     //thumbImgArr[index + 1].classList.remove("__luminoso");
-  //     thumbImgArr[index].classList.add("__luminoso");
-  //   });
-  // });
+      console.log(index);
+      console.log(counter);
 
-  arrowDownEl.addEventListener("click", function () {
-    thumbImgArr[counter - 1].classList.remove("__luminoso");
-
-    if (counter === arr.length) {
-      counter = 1;
-    } else {
-      counter++;
-    }
-    carosImageEl.setAttribute("src", `img/0${counter}.webp`);
-    filmTitleEl.innerText = `${arr[counter - 1].title}`;
-    filmDescrpEl.innerText = `${arr[counter - 1].text}`;
-
-    thumbImgArr[counter - 1].classList.add("__luminoso");
+      //thumbImgArr[index + 1].classList.remove("__luminoso");
+    });
   });
-  arrowUpEl.addEventListener("click", function () {
-    thumbImgArr[counter - 1].classList.remove("__luminoso");
 
-    if (counter === 1) {
-      counter = arr.length;
+  arrowUpEl.addEventListener("click", function () {
+    console.log(counter);
+    thumbImgArr[counter].classList.remove("__luminoso");
+
+    if (counter === 0) {
+      counter = arr.length - 1;
     } else {
       counter--;
     }
-    carosImageEl.setAttribute("src", `img/0${counter}.webp`);
-    filmTitleEl.innerText = `${arr[counter - 1].title}`;
-    filmDescrpEl.innerText = `${arr[counter - 1].text}`;
+    previousIndex = counter;
+    carosImageEl.setAttribute("src", `img/0${counter + 1}.webp`);
+    filmTitleEl.innerText = `${arr[counter].title}`;
+    filmDescrpEl.innerText = `${arr[counter].text}`;
 
-    thumbImgArr[counter - 1].classList.add("__luminoso");
+    thumbImgArr[counter].classList.add("__luminoso");
+  });
+  arrowDownEl.addEventListener("click", function () {
+    thumbImgArr[counter].classList.remove("__luminoso");
+
+    if (counter === arr.length - 1) {
+      counter = 0;
+    } else {
+      counter++;
+    }
+    previousIndex = counter;
+
+    carosImageEl.setAttribute("src", `img/0${counter + 1}.webp`);
+    filmTitleEl.innerText = `${arr[counter].title}`;
+    filmDescrpEl.innerText = `${arr[counter].text}`;
+
+    thumbImgArr[counter].classList.add("__luminoso");
   });
   // seleziono il button per far partire l'autoplay
   let btnAutoplayEl = document.getElementById("start-autoplay");
@@ -150,35 +159,42 @@ function addBigImage(arr, elementReceivingAppend) {
   let intervalID;
 
   btnAutoplayEl.addEventListener("click", function () {
+    btnAutoplayEl.style.pointerEvents = "none";
     intervalID = setInterval(function () {
-      thumbImgArr[counter - 1].classList.remove("__luminoso");
-      if (counter === arr.length) {
-        counter = 1;
+      thumbImgArr[counter].classList.remove("__luminoso");
+      if (counter === arr.length - 1) {
+        counter = 0;
       } else {
         counter++;
       }
-      carosImageEl.setAttribute("src", `img/0${counter}.webp`);
-      thumbImgArr[counter - 1].classList.add("__luminoso");
-      filmTitleEl.innerText = `${arr[counter - 1].title}`;
-      filmDescrpEl.innerText = `${arr[counter - 1].text}`;
+      previousIndex = counter;
+      carosImageEl.setAttribute("src", `img/0${counter + 1}.webp`);
+      thumbImgArr[counter].classList.add("__luminoso");
+      filmTitleEl.innerText = `${arr[counter].title}`;
+      filmDescrpEl.innerText = `${arr[counter].text}`;
     }, 2000);
   });
   btnStopAutoplayEl.addEventListener("click", function () {
+    btnAutoplayEl.style.pointerEvents = "auto";
+
     clearInterval(intervalID);
   });
   btnRevertAutoplayEl.addEventListener("click", function () {
+    //btnRevertAutoplayEl.style.pointerEvents = "none";
     clearInterval(intervalID);
     intervalID = setInterval(function () {
-      thumbImgArr[counter - 1].classList.remove("__luminoso");
-      if (counter === 1) {
-        counter = arr.length;
+      thumbImgArr[counter].classList.remove("__luminoso");
+      if (counter === 0) {
+        counter = arr.length - 1;
       } else {
         counter--;
       }
-      carosImageEl.setAttribute("src", `img/0${counter}.webp`);
-      thumbImgArr[counter - 1].classList.add("__luminoso");
-      filmTitleEl.innerText = `${arr[counter - 1].title}`;
-      filmDescrpEl.innerText = `${arr[counter - 1].text}`;
+      previousIndex = counter;
+
+      carosImageEl.setAttribute("src", `img/0${counter + 1}.webp`);
+      thumbImgArr[counter].classList.add("__luminoso");
+      filmTitleEl.innerText = `${arr[counter].title}`;
+      filmDescrpEl.innerText = `${arr[counter].text}`;
     }, 2000);
   });
   //console.log(btnAutoplayEl);
