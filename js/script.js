@@ -34,6 +34,7 @@ let arrowUpEl = document.querySelector(".__arrow-up");
 console.log(arrowUpEl);
 let arrowDownEl = document.querySelector(".__arrow-down");
 console.log(arrowDownEl);
+let thumbNailsContainerEl = document.querySelector(".__thumbnails-container");
 
 // ora devo creare la function che genera le thumbnails
 
@@ -46,12 +47,12 @@ function generateThumbnails(arr, elementReceivingAppend) {
 
     let carosImage = document.createElement("img");
     carosImage.classList.add("__thumb-img");
-    carosImage.style.objectFit = "";
+    carosImage.style.objectFit = "cover";
     carosImage.style.height = "100%";
     carosImage.style.width = "100%";
-
     thumbImgDivEl.append(carosImage);
     carosImage.setAttribute("src", `img/0${index + 1}.webp`);
+    //carosImage.classList.add("__luminoso");
   });
 }
 
@@ -61,14 +62,14 @@ function addBigImage(arr, elementReceivingAppend) {
   carosImageEl.style.objectFit = "";
   carosImageEl.style.height = "100%";
   carosImageEl.style.width = "100%";
+  carosImageEl.style.objectFit = "cover";
   carosImageEl.classList.add("__img-big-carosel");
-
-  carosImageEl.setAttribute("src", `img/01.webp`);
+  carosImageEl.setAttribute("src", `${arr[0].image}`);
   elementReceivingAppend.append(carosImageEl);
 
-  let filmTitleEl = document.createElement("h3");
+  let filmTitleEl = document.createElement("h2");
   filmTitleEl.style.color = "white";
-  filmTitleEl.style.textShadow = "-1px 1px 1px blue";
+  filmTitleEl.style.textShadow = "2px 2px 2px blue";
   filmTitleEl.style.textAlign = "end";
   filmTitleEl.innerHTML = `${arr[0].title}`;
   filmTitleEl.style.position = "absolute";
@@ -84,22 +85,33 @@ function addBigImage(arr, elementReceivingAppend) {
   filmDescrpEl.style.top = "88%";
   filmDescrpEl.style.right = "8px";
   filmDescrpEl.style.textAlign = "end";
-  filmDescrpEl.style.textShadow = "-1px 1px 1px blue";
+  filmDescrpEl.style.textShadow = "2px 2px 2px blue";
   filmDescrpEl.style.paddingLeft = "40px";
   filmDescrpEl.classList.add("fw-medium");
 
-  generateThumbnails(images, sliderContainerEl);
+  generateThumbnails(images, thumbNailsContainerEl);
 
   let thumbDivArr = document.querySelectorAll(".__thumb-div");
   console.log(thumbDivArr);
   let thumbImgArr = document.querySelectorAll(".__thumb-img");
   console.log(thumbImgArr);
-  // thumbImgArr.forEach(function (el) {
-  //   el.classList.add("__scuro");
-  // });
-
   let counter = 1;
   thumbImgArr[counter - 1].classList.add("__luminoso");
+  // thumbImgArr[0].classList.add("__luminoso");
+  // thumbImgArr.forEach(function (el, index) {
+  //   let previusindex = index;
+  //   el.addEventListener("click", function () {
+  //     thumbImgArr[0].classList.remove("__luminoso");
+  //     thumbImgArr[previusindex].classList.remove("__luminoso");
+
+  //     console.log(index);
+  //     console.log(previusindex);
+
+  //     //thumbImgArr[index + 1].classList.remove("__luminoso");
+  //     thumbImgArr[index].classList.add("__luminoso");
+  //   });
+  // });
+
   arrowDownEl.addEventListener("click", function () {
     thumbImgArr[counter - 1].classList.remove("__luminoso");
 
@@ -128,16 +140,19 @@ function addBigImage(arr, elementReceivingAppend) {
 
     thumbImgArr[counter - 1].classList.add("__luminoso");
   });
-
+  // seleziono il button per far partire l'autoplay
   let btnAutoplayEl = document.getElementById("start-autoplay");
+  // seleziono il button dello stop-autoplay
   let btnStopAutoplayEl = document.getElementById("stop-autoplay");
+  // seleziono il button per invertire l'autoplay
   let btnRevertAutoplayEl = document.getElementById("revert-autoplay");
+  // setto la variabile interval Id per triggerare una funzione a intervalli regolari
   let intervalID;
 
   btnAutoplayEl.addEventListener("click", function () {
     intervalID = setInterval(function () {
       thumbImgArr[counter - 1].classList.remove("__luminoso");
-      if (counter === 5) {
+      if (counter === arr.length) {
         counter = 1;
       } else {
         counter++;
@@ -156,7 +171,7 @@ function addBigImage(arr, elementReceivingAppend) {
     intervalID = setInterval(function () {
       thumbImgArr[counter - 1].classList.remove("__luminoso");
       if (counter === 1) {
-        counter = 5;
+        counter = arr.length;
       } else {
         counter--;
       }
@@ -166,12 +181,9 @@ function addBigImage(arr, elementReceivingAppend) {
       filmDescrpEl.innerText = `${arr[counter - 1].text}`;
     }, 2000);
   });
-  console.log(btnAutoplayEl);
+  //console.log(btnAutoplayEl);
 }
 
 // ora mi occupo dello slider
-let sliderContainerEl = document.querySelector(".__slider-container");
 
 addBigImage(images, bigImageInnerContainerEl);
-
-// seleziono il button per far partire l'autoplay
