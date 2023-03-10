@@ -42,6 +42,7 @@ function generateThumbnails(arr, elementReceivingAppend) {
   arr.forEach(function (el, index) {
     let thumbImgDivEl = document.createElement("div");
     thumbImgDivEl.style.height = `calc(100% / ${arr.length}`;
+    thumbImgDivEl.style.cursor = "pointer";
     thumbImgDivEl.classList.add("__thumb-div");
     elementReceivingAppend.append(thumbImgDivEl);
 
