@@ -6,8 +6,12 @@
 
 .__container-outer {
   height: calc(100vh - (63px + 49px));
-  padding: 100px 100px 100px 100px;
+  padding: 40px 100px 100px 100px;
   background-color: #3194f7;
+  background-image: url(../img/peakpx.jpg);
+  background-position: 0%;
+  background-position-x: 0%;
+  background-position-y: 0%;
 }
 
 .__container-inner {

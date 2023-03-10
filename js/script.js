@@ -90,7 +90,6 @@ function addBigImage(arr, elementReceivingAppend) {
 
   generateThumbnails(images, sliderContainerEl);
 
-  let counter = 1;
   let thumbDivArr = document.querySelectorAll(".__thumb-div");
   console.log(thumbDivArr);
   let thumbImgArr = document.querySelectorAll(".__thumb-img");
@@ -99,8 +98,8 @@ function addBigImage(arr, elementReceivingAppend) {
   //   el.classList.add("__scuro");
   // });
 
+  let counter = 1;
   thumbImgArr[counter - 1].classList.add("__luminoso");
-
   arrowDownEl.addEventListener("click", function () {
     thumbImgArr[counter - 1].classList.remove("__luminoso");
 
@@ -132,20 +131,40 @@ function addBigImage(arr, elementReceivingAppend) {
 
   let btnAutoplayEl = document.getElementById("start-autoplay");
   let btnStopAutoplayEl = document.getElementById("stop-autoplay");
+  let btnRevertAutoplayEl = document.getElementById("revert-autoplay");
   let intervalID;
-  let counter2 = 1;
+
   btnAutoplayEl.addEventListener("click", function () {
     intervalID = setInterval(function () {
-      if (counter2 === 5) {
-        counter2 = 1;
+      thumbImgArr[counter - 1].classList.remove("__luminoso");
+      if (counter === 5) {
+        counter = 1;
       } else {
-        counter2++;
+        counter++;
       }
-      carosImageEl.setAttribute("src", `img/0${counter2}.webp`);
+      carosImageEl.setAttribute("src", `img/0${counter}.webp`);
+      thumbImgArr[counter - 1].classList.add("__luminoso");
+      filmTitleEl.innerText = `${arr[counter - 1].title}`;
+      filmDescrpEl.innerText = `${arr[counter - 1].text}`;
     }, 2000);
   });
   btnStopAutoplayEl.addEventListener("click", function () {
     clearInterval(intervalID);
+  });
+  btnRevertAutoplayEl.addEventListener("click", function () {
+    clearInterval(intervalID);
+    intervalID = setInterval(function () {
+      thumbImgArr[counter - 1].classList.remove("__luminoso");
+      if (counter === 1) {
+        counter = 5;
+      } else {
+        counter--;
+      }
+      carosImageEl.setAttribute("src", `img/0${counter}.webp`);
+      thumbImgArr[counter - 1].classList.add("__luminoso");
+      filmTitleEl.innerText = `${arr[counter - 1].title}`;
+      filmDescrpEl.innerText = `${arr[counter - 1].text}`;
+    }, 2000);
   });
   console.log(btnAutoplayEl);
 }
