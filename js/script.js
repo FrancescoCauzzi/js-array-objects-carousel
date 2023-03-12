@@ -177,11 +177,12 @@ function addBigImage(arr, elementReceivingAppend) {
   });
   btnStopAutoplayEl.addEventListener("click", function () {
     btnAutoplayEl.style.pointerEvents = "auto";
+    btnRevertAutoplayEl.style.pointerEvents = "auto";
 
     clearInterval(intervalID);
   });
   btnRevertAutoplayEl.addEventListener("click", function () {
-    //btnRevertAutoplayEl.style.pointerEvents = "none";
+    btnRevertAutoplayEl.style.pointerEvents = "none";
     clearInterval(intervalID);
     intervalID = setInterval(function () {
       thumbImgArr[counter].classList.remove("__luminoso");
